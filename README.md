@@ -6,7 +6,7 @@ conda create -p venv python=3.8 -y
 ```
 
 ```
-conda activate venv/
+conda activate visa_venv/
 ```
 ```
 pip install -r requirements.txt
