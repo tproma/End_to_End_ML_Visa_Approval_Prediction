@@ -29,3 +29,20 @@ def write_yaml_file(file_path: str, content: object, replace: bool = False) -> N
             yaml.dump(content, file)
     except Exception as e:
         raise USvisaException(e, sys) from e
+
+
+
+def load_object(file_path: str) -> object:
+    logging.info("Entered the load_object method of utils")
+
+    try:
+
+        with open(file_path, "rb") as file_obj:
+            obj = dill.load(file_obj)
+
+        logging.info("Exited the load_object method of utils")
+
+        return obj
+
+    except Exception as e:
+        raise USvisaException(e, sys) from e
