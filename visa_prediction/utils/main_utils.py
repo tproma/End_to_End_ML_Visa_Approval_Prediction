@@ -64,3 +64,14 @@ def save_numpy_array_data(file_path: str, array: np.array):
 
 
 
+def load_numpy_array_data(file_path: str) -> np.array:
+    """
+    load numpy array data from file
+    file_path: str location of file to load
+    return: np.array data loaded
+    """
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise USvisaException(e, sys) from e
