@@ -16,3 +16,7 @@ TARGET_COLUMN = "case_status"
 CURRENT_YEAR = date.today().year
 PREPROCESSING_OBJECT_FILE_NAME = "preprocessing.pkl"
 
+FILE_NAME: str = "us_visa.csv"
+TRAIN_FILE_NAME :str = "train.csv"
+TEST_FILE_NAME : str = "test.csv"
+
