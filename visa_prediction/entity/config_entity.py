@@ -3,6 +3,16 @@ from visa_prediction.constants import *
 from dataclasses import dataclass
 from datetime import datetime
 
+
+
+
+@dataclass
+class TrainingPipelineConfig:
+    pipeline_name: str = PIPELINE_NAME
+    artifact_dir: str = os.path.join(ARTIFACT_DIR, TIMESTAMP)
+    timestamp: str = TIMESTAMP
+
+
 @dataclass
 class DataIngestionConfig:
     data_ingestion_dir: str = os.path.join(training_pipeline_config.artifact_dir, DATA_INGESTION_DIR_NAME)
