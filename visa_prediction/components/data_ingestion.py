@@ -46,7 +46,6 @@ class DataIngestion:
         except Exception as e:
             raise USvisaException(e,sys)
         
-    
 
     def split_data_as_train_test(self,dataframe: DataFrame) ->None:
         """
@@ -76,34 +75,34 @@ class DataIngestion:
             raise USvisaException(e, sys) from e
         
 
-        def initiate_data_ingestion(self) ->DataIngestionArtifact:
-            """
-            Method Name :   initiate_data_ingestion
-            Description :   This method initiates the data ingestion components of training pipeline 
+    def initiate_data_ingestion(self) ->DataIngestionArtifact:
+        """
+        Method Name :   initiate_data_ingestion
+        Description :   This method initiates the data ingestion components of training pipeline 
+        
+        Output      :   train set and test set are returned as the artifacts of data ingestion components
+        On Failure  :   Write an exception log and then raise an exception
+        """
+
+        logging.info("Entered initiate_data_ingestion method of Data_Ingestion class")
+
+        try:
+            dataframe = self.export_data_into_feature_store()
+
+            logging.info("Got the data from mongodb")
+
+            self.split_data_as_train_test(dataframe)
+
+            logging.info("Performed train test split on the dataset")
+
+            logging.info(
+                "Exited initiate_data_ingestion method of Data_Ingestion class"
+            )
+
+            data_ingestion_artifact = DataIngestionArtifact(trained_file_path=self.data_ingestion_config.training_file_path,
+            test_file_path=self.data_ingestion_config.testing_file_path)
             
-            Output      :   train set and test set are returned as the artifacts of data ingestion components
-            On Failure  :   Write an exception log and then raise an exception
-            """
-
-            logging.info("Entered initiate_data_ingestion method of Data_Ingestion class")
-
-            try:
-                dataframe = self.export_data_into_feature_store()
-
-                logging.info("Got the data from mongodb")
-
-                self.split_data_as_train_test(dataframe)
-
-                logging.info("Performed train test split on the dataset")
-
-                logging.info(
-                    "Exited initiate_data_ingestion method of Data_Ingestion class"
-                )
-
-                data_ingestion_artifact = DataIngestionArtifact(trained_file_path=self.data_ingestion_config.training_file_path,
-                test_file_path=self.data_ingestion_config.testing_file_path)
-                
-                logging.info(f"Data ingestion artifact: {data_ingestion_artifact}")
-                return data_ingestion_artifact
-            except Exception as e:
-                raise USvisaException(e, sys) from e
+            logging.info(f"Data ingestion artifact: {data_ingestion_artifact}")
+            return data_ingestion_artifact
+        except Exception as e:
+            raise USvisaException(e, sys) from e
