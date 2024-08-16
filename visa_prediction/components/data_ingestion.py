@@ -49,6 +49,13 @@ class DataIngestion:
     
 
     def split_data_as_train_test(self,dataframe: DataFrame) ->None:
+        """
+        Method Name :   split_data_as_train_test
+        Description :   This method splits the dataframe into train set and test set based on split ratio 
+        
+        Output      :   Folder is created in s3 bucket
+        On Failure  :   Write an exception log and then raise an exception
+        """
         logging.info("Entered split_data_as_train_test method of Data_Ingestion class")
 
         try:
