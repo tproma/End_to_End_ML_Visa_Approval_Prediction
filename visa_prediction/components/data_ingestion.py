@@ -23,6 +23,13 @@ class DataIngestion:
         
 
     def export_data_into_feature_store(self)->DataFrame:
+        """
+        Method Name :   export_data_into_feature_store
+        Description :   This method exports data from mongodb to csv file
+        
+        Output      :   data is returned as artifact of data ingestion components
+        On Failure  :   Write an exception log and then raise an exception
+        """
         try:
             logging.info(f"Exporting data from mongodb")
             usvisa_data = USVisaData()
