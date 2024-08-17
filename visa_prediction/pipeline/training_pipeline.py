@@ -13,3 +13,16 @@ class TrainingPipeline:
         self.data_ingestion_config = DataIngestionConfig()
 
     
+    def start_data_ingestion(self) -> DataIngestionArtifact:
+        try:
+            logging.info("Starting Data Ingestion method of Training Pipeline")
+            logging.info("Getting data from MongoDB")
+            data_ingestion = DataIngestion(data_ingestion_config=self.data_ingestion_config)
+            data_ingestion_artifact = data_ingestion.initiate_data_ingestion()
+            logging.info("Tarin & Test set from MongoDB acheieved")
+            logging.info("Exit Data Ingestion method of Training Pipeline")
+
+            return data_ingestion_artifact
+        except Exception as e:
+            raise USvisaException(e,sys) from e
+        
