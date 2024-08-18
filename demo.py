@@ -1,4 +1,6 @@
-from visa_prediction.constants import *
+from visa_prediction.pipeline.training_pipeline import TrainingPipeline
 
-print(DATABASE_NAME)
-print(COLLECTION_NAME)
+
+pipeline = TrainingPipeline()
+pipeline.run_pipeline()
+
