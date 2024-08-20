@@ -20,6 +20,7 @@ FILE_NAME: str = "us_visa.csv"
 TRAIN_FILE_NAME :str = "train.csv"
 TEST_FILE_NAME : str = "test.csv"
 
+SCHEMA_FILE_PATH = os.path.join("config", "schema.yaml")
 
 """
 Data Ingestion Related Constants 
