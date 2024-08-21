@@ -4,7 +4,7 @@ from datetime import date
 DATABASE_NAME = "US_VISA"
 
 COLLECTION_NAME = "visa_data"
-MONGODB_URL_KEY = "MONGODB_URL"
+MONGODB_URL_KEY = "mongodb+srv://tproma2:tproma2@cluster0.rpadq8d.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 
 PIPELINE_NAME:str = "visa_prediction"
