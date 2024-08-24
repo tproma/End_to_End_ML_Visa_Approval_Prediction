@@ -45,7 +45,7 @@ or_columns:
   - full_time_position
   - education_of_employee
 
-
+# One hot encoding columns
 oh_columns:
   - continent
   - unit_of_wage
