@@ -77,3 +77,10 @@ class DataValidation:
             raise USvisaException(e, sys) from e
 
 
+
+    @staticmethod
+    def read_data(file_path) -> DataFrame:
+        try:
+            return pd.read_csv(file_path)
+        except Exception as e:
+            raise USvisaException(e, sys)
