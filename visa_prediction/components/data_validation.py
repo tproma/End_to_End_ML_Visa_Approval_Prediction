@@ -6,8 +6,11 @@ from visa_prediction.logger import logging
 from visa_prediction.utils.main_utils import read_yaml_file, write_yaml_file
 from visa_prediction.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 from visa_prediction.entity.config_entity import DataValidationConfig
-
 from visa_prediction.constants import SCHEMA_FILE_PATH
+
+import pandas as pd
+from evidently.model_profile import Profile
+from evidently.model_profile.sections import DataDriftProfileSection
 
 
 class DataValidation:
