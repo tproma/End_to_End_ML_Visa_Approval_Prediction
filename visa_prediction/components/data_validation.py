@@ -42,3 +42,38 @@ class DataValidation:
             return status
         except Exception as e:
             raise USvisaException(e, sys)
+        
+
+    
+    def is_column_exist(self, df: DataFrame) -> bool:
+        """
+        Method Name :   is_column_exist
+        Description :   This method validates the existence of a numerical and categorical columns
+        
+        Output      :   Returns bool value based on validation results
+        On Failure  :   Write an exception log and then raise an exception
+        """
+        try:
+            dataframe_columns = df.columns
+            missing_numerical_columns = []
+            missing_categorical_columns = []
+            for column in self._schema_config["numerical_columns"]:
+                if column not in dataframe_columns:
+                    missing_numerical_columns.append(column)
+
+            if len(missing_numerical_columns)>0:
+                logging.info(f"Missing numerical column: {missing_numerical_columns}")
+
+
+            for column in self._schema_config["categorical_columns"]:
+                if column not in dataframe_columns:
+                    missing_categorical_columns.append(column)
+
+            if len(missing_categorical_columns)>0:
+                logging.info(f"Missing categorical column: {missing_categorical_columns}")
+
+            return False if len(missing_categorical_columns)>0 or len(missing_numerical_columns)>0 else True
+        except Exception as e:
+            raise USvisaException(e, sys) from e
+
+
