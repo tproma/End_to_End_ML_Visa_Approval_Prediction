@@ -47,7 +47,7 @@ class DataValidation:
         
 
     
-    def is_column_exist(self, df: DataFrame) -> bool:
+    def does_column_exist(self, df: DataFrame) -> bool:
         """
         Method Name :   is_column_exist
         Description :   This method validates the existence of a numerical and categorical columns
@@ -114,4 +114,16 @@ class DataValidation:
             return drift_status
         except Exception as e:
             raise USvisaException(e, sys) from e
+
+
+    def initiate_data_validation(self)-> DataValidationArtifact:
+        try:
+            validation_error_msg =""
+            logging.info("Starting Data Validation")
+
+            train_df, test_df = (DataValidation.read_data(file_path=self.data_ingestion_artifact.training_file_path),
+                                 DataValidation.read_data(file_path= self.data_ingestion_artifact.test_file_path))
+        except Exception as e:
+            raise USvisaException(e,sys) from e
+        
 
