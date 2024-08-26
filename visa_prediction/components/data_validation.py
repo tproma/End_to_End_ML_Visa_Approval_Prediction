@@ -40,7 +40,7 @@ class DataValidation:
         """
         try:
             status = len(dataframe.columns) == len(self._schema_config["columns"])
-            logging.info(f"Is required column present: [{status}]")
+            logging.info(f"Required column present: [{status}]")
             return status
         except Exception as e:
             raise USvisaException(e, sys)
