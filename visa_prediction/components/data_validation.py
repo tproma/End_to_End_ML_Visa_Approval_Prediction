@@ -123,6 +123,54 @@ class DataValidation:
 
             train_df, test_df = (DataValidation.read_data(file_path=self.data_ingestion_artifact.training_file_path),
                                  DataValidation.read_data(file_path= self.data_ingestion_artifact.test_file_path))
+        
+            # Checking number of train data columns
+            status = self.validate_number_of_columns(dataframe=train_df)
+            logging.info(f"All required columns present in training dataframe: {status}.")
+            if not status:
+                validation_error_msg += f"Columns are missing in training dataframe."
+
+
+            # Checking number of test data columns
+            status = self.validate_number_of_columns(dataframe=test_df)
+            logging.info(f"All required columns present in test dataframe: {status}.")
+            if not status:
+                validation_error_msg += f"Columns are missing in test dataframe."
+                
+
+            status = self.does_column_exist(df=train_df)
+            if not status:
+                validation_error_msg += f"Columns are missing in training dataframe."
+
+
+            status = self.does_column_exist(df=test_df)
+            if not status:
+                validation_error_msg += f"Columns are missing in test dataframe."
+
+
+            validation_status = len(validation_error_msg) == 0 
+
+
+            if validation_status:
+                drift_status = self.detect_dataset_drift(train_df, test_df)
+                if drift_status:
+                    logging.info(f"Drift detected")
+                    validation_error_msg = "Drift detected"
+                else:
+                    validation_error_msg = "Drift not detected"
+            else:
+                logging.info(f"validation error: {validation_error_msg}")
+
+            
+            data_validation_artifact = DataValidationArtifact(
+                validation_status=validation_status,
+                message=validation_error_msg,
+                drift_report_file_path= self.data_validation_config.drift_report_file_path
+            )
+
+            logging.info(f"Data Validation Artifact: {data_validation_artifact}")
+            return data_validation_artifact
+        
         except Exception as e:
             raise USvisaException(e,sys) from e
         
