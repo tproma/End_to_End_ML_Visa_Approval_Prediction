@@ -101,8 +101,10 @@ class DataTransformation:
                 preprocessor = self.get_data_transformer_object()
                 logging.info("Got the preprocessor object")
 
+
                 train_df  = DataTransformation.read_data(file_path=self.data_ingestion_artifact.training_file_path)
                 test_df = DataTransformation.read_data(file_path=self.data_ingestion_artifact.test_file_path)
+
 
                 # Train data X & y
                 input_feature_train_df = train_df.drop(columns=[TARGET_COLUMN], axis=1)
@@ -133,6 +135,22 @@ class DataTransformation:
                 )
                 logging.info("Got final X & y for test data")
 
+
+
+                logging.info("Applying preprocessor object on train & test dataframe")
+                input_feature_train_arr = preprocessor.fit_transform(input_feature_train_df)
+                input_feature_test_arr = preprocessor.transform(input_feature_test_df)
+
+
+                logging.info("Applying SMOTEEN on train & test df")
+                smt = SMOTEENN(sampling_strategy="minority")
+                input_feature_train_final, target_feature_train_fianl = smt.fit_resample(
+                    input_feature_train_arr, target_feature_train_df
+                )
+                input_feature_test_final, target_feature_test_final = smt.fit_resample(
+                    input_feature_test_arr, target_feature_test_df
+                )
+                logging.info("Applied SMOTEENN on train & test dataset")
 
 
                 
