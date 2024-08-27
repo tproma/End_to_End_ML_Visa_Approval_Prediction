@@ -142,7 +142,7 @@ class DataTransformation:
                 input_feature_test_arr = preprocessor.transform(input_feature_test_df)
 
 
-                logging.info("Applying SMOTEEN on train & test df")
+                logging.info("Applying SMOTEENN on train & test df")
                 smt = SMOTEENN(sampling_strategy="minority")
                 input_feature_train_final, target_feature_train_fianl = smt.fit_resample(
                     input_feature_train_arr, target_feature_train_df
@@ -153,8 +153,35 @@ class DataTransformation:
                 logging.info("Applied SMOTEENN on train & test dataset")
 
 
-                
 
+                logging.info("Creating train array and test array")
+                train_arr = np.c_[input_feature_train_arr, 
+                                  np.array(target_feature_train_fianl)
+                                  ]
+                test_arr = np.c_[input_feature_test_arr, 
+                                 np.array(target_feature_test_final)
+                                 ]
+
+
+                save_object(self.data_transformation_config.transformed_object_file_path, preprocessor)
+                logging.info("Saved the preprocessor object")
+                save_numpy_array_data(self.data_transformation_config.transformed_train_file_path, array=train_arr)
+                save_numpy_array_data(self.data_transformation_config.transformed_test_file_path, array=test_arr)
+
+                logging.info(
+                    "Exited initiate_data_transformation method of Data_Transformation class"
+                )
+
+
+                data_transformation_artifact = DataTransformationArtifact(
+                    transformed_object_file_path=self.data_transformation_config.transformed_object_file_path,
+                    transformed_train_file_path= self.data_transformation_config.transformed_train_file_path,
+                    transformed_test_file_path= self.data_transformation_config.transformed_test_file_path
+                )
+                return data_transformation_artifact
+            else:
+                raise Exception(self.data_validation_artifact.message)
+            
         except Exception as e:
             raise USvisaException(e,sys) from e
         
