@@ -31,3 +31,13 @@ class DataTransformation:
         except Exception as e:
             raise USvisaException(e,sys)
         
+
+    @staticmethod
+    def read_data(file_path) -> pd.DataFrame:
+        try:
+            return pd.read_csv(file_path)
+        except Exception as e:
+            raise USvisaException(e,sys)
+        
+
+    
