@@ -90,4 +90,54 @@ class DataTransformation:
 
         except Exception as e:
             raise USvisaException(e, sys) from e
+        
+
+    
+    
+    def initiate_data_transformation(self) -> DataTransformationArtifact:
+        try:
+            if self.data_validation_artifact.validation_status:
+                logging.info("Starting data Transformation")
+                preprocessor = self.get_data_transformer_object()
+                logging.info("Got the preprocessor object")
+
+                train_df  = DataTransformation.read_data(file_path=self.data_ingestion_artifact.training_file_path)
+                test_df = DataTransformation.read_data(file_path=self.data_ingestion_artifact.test_file_path)
+
+                # Train data X & y
+                input_feature_train_df = train_df.drop(columns=[TARGET_COLUMN], axis=1)
+                target_feature_train_df = train_df[TARGET_COLUMN]
+                logging.info("Got X & y of train data")
+                input_feature_train_df['company_age'] = CURRENT_YEAR-input_feature_train_df['yr_of_estab']
+                logging.info("Added company_age column to train df")
+                drop_cols = self._schema_config['drop_cols']
+                input_feature_train_df = drop_columns(df = input_feature_train_df, cols=drop_cols)
+                logging.info("Dropped the columns")
+                target_feature_train_df = target_feature_train_df.replace(
+                    TargetValueMapping()._asdict()
+                )
+                logging.info("Got final X & y for train data")
+
+
+                # Test data X & y
+                input_feature_test_df = test_df.drop(columns=[TARGET_COLUMN], axis=1)
+                target_feature_test_df = test_df[TARGET_COLUMN]
+                logging.info("Got X & y of Test data")
+                input_feature_test_df['company_age'] = CURRENT_YEAR-input_feature_test_df['yr_of_estab']
+                logging.info("Added company_age column to test df")
+
+                input_feature_test_df = drop_columns(df = input_feature_test_df, cols=drop_cols)
+                logging.info("Dropped the columns")
+                target_feature_test_df = target_feature_test_df.replace(
+                    TargetValueMapping()._asdict()
+                )
+                logging.info("Got final X & y for test data")
+
+
+
+                
+
+        except Exception as e:
+            raise USvisaException(e,sys) from e
+        
     
