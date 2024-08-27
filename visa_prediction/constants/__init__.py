@@ -39,3 +39,9 @@ DATA_VALIDATION_DIR_NAME: str = "data_validation"
 DATA_VALIDATION_DRIFT_REPORT_DIR: str = "drift_report"
 DATA_VALIDATION_DRIFT_REPORT_FILE_NAME: str = "report.yaml"
 
+"""
+Data Transformation related constants
+"""
+DATA_TRANSFORMATION_DIR_NAME:str = "data_transformation"
+DATA_TRANSFORMATION_TRANSFORMED_DIR:str = "transformated"
+DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR:str = "transformated_object"
