@@ -22,3 +22,4 @@ from visa_prediction.entity.artifact_entity import (ModelTrainerArtifact,
                                                     DataTransformationArtifact, 
                                                     ClassificationMetricArtifact
 )
+from visa_prediction.entity.estimator import US
