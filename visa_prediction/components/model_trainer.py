@@ -22,4 +22,15 @@ from visa_prediction.entity.artifact_entity import (ModelTrainerArtifact,
                                                     DataTransformationArtifact, 
                                                     ClassificationMetricArtifact
 )
-from visa_prediction.entity.estimator import US
+from visa_prediction.entity.estimator import USVisaModel
+
+
+
+class ModelTrainer:
+    def __init__(self, data_transformation_artifact: DataTransformationArtifact, 
+                 model_trainer_config: ModelTrainerConfig):
+        self.data_transformation_artifact = data_transformation_artifact
+        self.model_trainer_config = model_trainer_config
+
+
+   
