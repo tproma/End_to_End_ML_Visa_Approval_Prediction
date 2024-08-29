@@ -31,3 +31,33 @@ class SimpleStorageService:
                 return False
         except Exception as e:
             raise USvisaException(e,sys)
+        
+
+         
+
+    @staticmethod
+    def read_object(object_name: str, decode: bool = True, make_readable: bool = False) -> Union[StringIO, str]:
+        """
+        Method Name :   read_object
+        Description :   This method reads the object_name object with kwargs
+
+        Output      :   The column name is renamed
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the read_object method of S3Operations class")
+
+        try:
+            func = (
+                lambda: object_name.get()["Body"].read().decode()
+                if decode is True
+                else object_name.get()["Body"].read()
+            )
+            conv_func = lambda: StringIO(func()) if make_readable is True else func()
+            logging.info("Exited the read_object method of S3Operations class")
+            return conv_func()
+
+        except Exception as e:
+            raise USvisaException(e, sys) from e
