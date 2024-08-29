@@ -67,6 +67,34 @@ class ModelTrainer:
 
     def initiate_model_trainer(self, ) -> ModelTrainerArtifact:
         try:
-            pass
+            train_arr = load_numpy_array_data(
+                file_path=self.data_transformation_artifact.transformed_train_file_path)
+            test_arr = load_numpy_array_data(
+                file_path=self.data_transformation_artifact.transformed_test_file_path)
+
+            best_model_detail, metric_artifact = self.get_model_object_and_report(
+                train=train_arr, test=test_arr)
+            preprocessing_obj = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
+
+            if best_model_detail.best_score < self.model_trainer_config.expected_accuracy:
+                logging.info("No bestmodel found")
+                raise Exception ("No best model found")
+            
+            usvisa_model = USVisaModel(preprocessing_object=preprocessing_obj,
+                                       trained_model_object=best_model_detail.best_model)
+            
+            logging.info("Created usvisa model object with preprocessor and model")
+            logging.info("Created best model file path.")
+
+            save_object(self.model_trainer_config.trained_model_file_path, usvisa_model)
+
+
+            model_trainer_artifact = ModelTrainerArtifact(
+                trained_model_file_path= self.model_trainer_config.trained_model_file_path,
+                metric_artifact=metric_artifact
+            )
+            logging.info(f"Model trainer artifact: {model_trainer_artifact}")
+            return model_trainer_artifact
+            
         except Exception as e:
             raise USvisaException(e, sys) from e
