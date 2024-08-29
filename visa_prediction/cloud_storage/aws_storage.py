@@ -61,3 +61,25 @@ class SimpleStorageService:
 
         except Exception as e:
             raise USvisaException(e, sys) from e
+        
+
+    
+    def get_bucket(self, bucket_name: str) -> Bucket:
+        """
+        Method Name :   get_bucket
+        Description :   This method gets the bucket object based on the bucket_name
+
+        Output      :   Bucket object is returned based on the bucket name
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the get_bucket method of S3Operations class")
+
+        try:
+            bucket = self.s3_resource.Bucket(bucket_name)
+            logging.info("Exited the get_bucket method of S3Operations class")
+            return bucket
+        except Exception as e:
+            raise USvisaException(e, sys) from e
