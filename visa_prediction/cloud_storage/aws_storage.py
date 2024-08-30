@@ -142,3 +142,68 @@ class SimpleStorageService:
 
         except Exception as e:
             raise USvisaException(e, sys) from e
+        
+
+
+    def create_folder(self, folder_name: str, bucket_name: str) -> None:
+        """
+        Method Name :   create_folder
+        Description :   This method creates a folder_name folder in bucket_name bucket
+
+        Output      :   Folder is created in s3 bucket
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the create_folder method of S3Operations class")
+
+        try:
+            self.s3_resource.Object(bucket_name, folder_name).load()
+
+        except ClientError as e:
+            if e.response["Error"]["Code"] == "404":
+                folder_obj = folder_name + "/"
+                self.s3_client.put_object(Bucket=bucket_name, Key=folder_obj)
+            else:
+                pass
+            logging.info("Exited the create_folder method of S3Operations class")
+
+    def upload_file(self, from_filename: str, to_filename: str,  bucket_name: str,  remove: bool = True):
+        """
+        Method Name :   upload_file
+        Description :   This method uploads the from_filename file to bucket_name bucket with to_filename as bucket filename
+
+        Output      :   Folder is created in s3 bucket
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the upload_file method of S3Operations class")
+
+        try:
+            logging.info(
+                f"Uploading {from_filename} file to {to_filename} file in {bucket_name} bucket"
+            )
+
+            self.s3_resource.meta.client.upload_file(
+                from_filename, bucket_name, to_filename
+            )
+
+            logging.info(
+                f"Uploaded {from_filename} file to {to_filename} file in {bucket_name} bucket"
+            )
+
+            if remove is True:
+                os.remove(from_filename)
+
+                logging.info(f"Remove is set to {remove}, deleted the file")
+
+            else:
+                logging.info(f"Remove is set to {remove}, not deleted the file")
+
+            logging.info("Exited the upload_file method of S3Operations class")
+
+        except Exception as e:
+            raise USvisaException(e, sys) from e
