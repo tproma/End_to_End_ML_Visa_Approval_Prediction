@@ -83,3 +83,62 @@ class SimpleStorageService:
             return bucket
         except Exception as e:
             raise USvisaException(e, sys) from e
+
+
+
+    def get_file_object( self, filename: str, bucket_name: str) -> Union[List[object], object]:
+        """
+        Method Name :   get_file_object
+        Description :   This method gets the file object from bucket_name bucket based on filename
+
+        Output      :   list of objects or object is returned based on filename
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the get_file_object method of S3Operations class")
+
+        try:
+            bucket = self.get_bucket(bucket_name)
+
+            file_objects = [file_object for file_object in bucket.objects.filter(Prefix=filename)]
+
+            func = lambda x: x[0] if len(x) == 1 else x
+
+            file_objs = func(file_objects)
+            logging.info("Exited the get_file_object method of S3Operations class")
+
+            return file_objs
+
+        except Exception as e:
+            raise USvisaException(e, sys) from e
+
+    def load_model(self, model_name: str, bucket_name: str, model_dir: str = None) -> object:
+        """
+        Method Name :   load_model
+        Description :   This method loads the model_name model from bucket_name bucket with kwargs
+
+        Output      :   list of objects or object is returned based on filename
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the load_model method of S3Operations class")
+
+        try:
+            func = (
+                lambda: model_name
+                if model_dir is None
+                else model_dir + "/" + model_name
+            )
+            model_file = func()
+            file_object = self.get_file_object(model_file, bucket_name)
+            model_obj = self.read_object(file_object, decode=False)
+            model = pickle.loads(model_obj)
+            logging.info("Exited the load_model method of S3Operations class")
+            return model
+
+        except Exception as e:
+            raise USvisaException(e, sys) from e
