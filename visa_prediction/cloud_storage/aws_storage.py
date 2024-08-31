@@ -207,3 +207,28 @@ class SimpleStorageService:
 
         except Exception as e:
             raise USvisaException(e, sys) from e
+        
+
+
+    def upload_df_as_csv(self,data_frame: DataFrame,local_filename: str, bucket_filename: str,bucket_name: str,) -> None:
+        """
+        Method Name :   upload_df_as_csv
+        Description :   This method uploads the dataframe to bucket_filename csv file in bucket_name bucket
+
+        Output      :   Folder is created in s3 bucket
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the upload_df_as_csv method of S3Operations class")
+
+        try:
+            data_frame.to_csv(local_filename, index=None, header=True)
+
+            self.upload_file(local_filename, bucket_filename, bucket_name)
+
+            logging.info("Exited the upload_df_as_csv method of S3Operations class")
+
+        except Exception as e:
+            raise USvisaException(e, sys) from e
