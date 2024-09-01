@@ -232,3 +232,29 @@ class SimpleStorageService:
 
         except Exception as e:
             raise USvisaException(e, sys) from e
+        
+
+
+
+    def get_df_from_object(self, object_: object) -> DataFrame:
+        """
+        Method Name :   get_df_from_object
+        Description :   This method gets the dataframe from the object_name object
+
+        Output      :   Folder is created in s3 bucket
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the get_df_from_object method of S3Operations class")
+
+        try:
+            content = self.read_object(object_, make_readable=True)
+            df = read_csv(content, na_values="na")
+            logging.info("Exited the get_df_from_object method of S3Operations class")
+            return df
+        except Exception as e:
+            raise USvisaException(e, sys) from e
+
+    
