@@ -258,3 +258,24 @@ class SimpleStorageService:
             raise USvisaException(e, sys) from e
 
     
+
+    def read_csv(self, filename: str, bucket_name: str) -> DataFrame:
+        """
+        Method Name :   get_df_from_object
+        Description :   This method gets the dataframe from the object_name object
+
+        Output      :   Folder is created in s3 bucket
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   1.2
+        Revisions   :   moved setup to cloud
+        """
+        logging.info("Entered the read_csv method of S3Operations class")
+
+        try:
+            csv_obj = self.get_file_object(filename, bucket_name)
+            df = self.get_df_from_object(csv_obj)
+            logging.info("Exited the read_csv method of S3Operations class")
+            return df
+        except Exception as e:
+            raise USvisaException(e, sys) from e
