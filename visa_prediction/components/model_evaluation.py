@@ -5,3 +5,10 @@ from visa_prediction.exception import USvisaException
 from visa_prediction.constants import TARGET_COLUMN, CURRENT_YEAR
 from visa_prediction.logger import logging
 import sys
+import pandas as pd
+from typing import Optional
+from visa_prediction.entity.estimator import USvisaEstimator
+from dataclasses import dataclass
+from visa_prediction.entity.estimator import USvisaModel
+from visa_prediction.entity.estimator import TargetValueMapping
+
