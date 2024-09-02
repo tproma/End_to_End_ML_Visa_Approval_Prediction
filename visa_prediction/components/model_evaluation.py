@@ -19,4 +19,16 @@ class EvaluateModelResponse:
     best_model_f1_score: float
     is_model_accepted: bool
     difference: float
-    
+
+
+
+class ModelEvaluation:
+
+    def __init__(self, model_eval_config: ModelEvaluationConfig, data_ingestion_artifact: DataIngestionArtifact,
+                 model_trainer_artifact: ModelTrainerArtifact):
+        try:
+            self.model_eval_config = model_eval_config
+            self.data_ingestion_artifact = data_ingestion_artifact
+            self.model_trainer_artifact = model_trainer_artifact
+        except Exception as e:
+            raise USvisaException(e, sys) from e
