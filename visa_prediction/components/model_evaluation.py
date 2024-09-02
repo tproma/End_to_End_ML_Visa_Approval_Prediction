@@ -12,3 +12,11 @@ from dataclasses import dataclass
 from visa_prediction.entity.estimator import USvisaModel
 from visa_prediction.entity.estimator import TargetValueMapping
 
+
+@dataclass
+class EvaluateModelResponse:
+    trained_model_f1_score: float
+    best_model_f1_score: float
+    is_model_accepted: bool
+    difference: float
+    
