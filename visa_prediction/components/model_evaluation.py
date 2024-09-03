@@ -21,7 +21,6 @@ class EvaluateModelResponse:
     difference: float
 
 
-
 class ModelEvaluation:
 
     def __init__(self, model_eval_config: ModelEvaluationConfig, data_ingestion_artifact: DataIngestionArtifact,
