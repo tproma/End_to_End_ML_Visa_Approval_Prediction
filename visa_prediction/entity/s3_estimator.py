@@ -19,3 +19,20 @@ class USVisaEstimator:
         self.s3 = SimpleStorageService()
         self.model_path = model_path
         self.loaded_model:USVisaModel=None
+
+
+    def is_model_present(self,model_path):
+        try:
+            return self.s3.s3_key_path_available(bucket_name=self.bucket_name, s3_key=model_path)
+        except USvisaException as e:
+            print(e)
+            return False
+        
+
+    def load_model(self,)->USVisaModel:
+        """
+        Load the model from the model_path
+        :return:
+        """
+
+        return self.s3.load_model(self.model_path,bucket_name=self.bucket_name)
