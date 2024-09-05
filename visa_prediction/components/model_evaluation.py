@@ -35,5 +35,16 @@ class ModelEvaluation:
              raise USvisaException(e,sys) from e
         
 
-
-    
+    def get_best_model(self) -> Optional[USVisaEstimator]:
+        try:
+            bucket_name = self.model_evaluation_config.bucket_name
+            model_path = self.model_evaluation_config.s3_model_key_path
+            usvisa_estimator = USVisaEstimator(bucket_name=bucket_name,
+                                                model_path=model_path)
+             
+            if usvisa_estimator.is_model_present(model_path=model_path):
+                return usvisa_estimator
+            return None
+        except Exception as e:
+            raise USvisaException(e,sys)
+        
