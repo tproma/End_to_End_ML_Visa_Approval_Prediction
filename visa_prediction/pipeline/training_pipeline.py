@@ -110,6 +110,7 @@ class TrainingPipeline:
 
 
 
+
     def run_pipeline(self) ->None:
         try:
             data_ingestion_artifact = self.start_data_ingestion()
@@ -119,6 +120,14 @@ class TrainingPipeline:
                 data_validation_artifact=data_validation_artifact
             )
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact,)
-           
+            model_evaluation_artifact = self.start_model_evaluation(
+                data_ingestion_artifact=data_ingestion_artifact,
+                model_trainer_artifact=model_trainer_artifact
+            )
+            if not model_evaluation_artifact.is_model_accepted:
+                logging.info(f"Model not accepted.")
+                return None
+
+
         except Exception as e:
             raise USvisaException(e,sys)
