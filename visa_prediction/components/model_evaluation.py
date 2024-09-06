@@ -81,3 +81,23 @@ class ModelEvaluation:
                 
         except Exception as e:
             raise USvisaException(e,sys)
+        
+
+    def initiate_model_evaluation(self) -> ModelEvaluationArtifact:
+        try:
+            evaluate_model_response = self.evaluate_model()
+            s3_model_path = self.model_evaluation_config.s3_model_key_path
+
+            model_evaluation_artifact = ModelEvaluationArtifact(
+                is_model_accepted=evaluate_model_response.is_model_accepted,
+                s3_model_path=s3_model_path,
+                trained_model_path=self.model_trainer_artifact.trained_model_file_path,
+                changed_accuracy=evaluate_model_response.difference
+            )
+            
+            logging.info(f"Model Evaluation Artifact: {model_evaluation_artifact} ") 
+            return model_evaluation_artifact
+        except Exception as e:
+            raise USvisaException(e,sys) from e
+        
+        
