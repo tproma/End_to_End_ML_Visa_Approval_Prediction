@@ -82,3 +82,16 @@ class USVisaData:
 
         except Exception as e:
             raise USvisaException(e, sys) from e
+        
+
+
+class USvisaClassifier:
+    def __init__(self,prediction_pipeline_config: USvisaPredictorConfig = USvisaPredictorConfig(),) -> None:
+        """
+        :param prediction_pipeline_config: Configuration for prediction the value
+        """
+        try:
+            # self.schema_config = read_yaml_file(SCHEMA_FILE_PATH)
+            self.prediction_pipeline_config = prediction_pipeline_config
+        except Exception as e:
+            raise USvisaException(e, sys)
