@@ -86,7 +86,7 @@ class USVisaData:
 
 
 class USvisaClassifier:
-    def __init__(self,prediction_pipeline_config: USvisaPredictorConfig = USvisaPredictorConfig(),) -> None:
+    def __init__(self,prediction_pipeline_config: USVisaPredictorConfig = USVisaPredictorConfig(),) -> None:
         """
         :param prediction_pipeline_config: Configuration for prediction the value
         """
@@ -95,3 +95,18 @@ class USvisaClassifier:
             self.prediction_pipeline_config = prediction_pipeline_config
         except Exception as e:
             raise USvisaException(e, sys)
+
+
+    def predict(self, dataframe) ->str:
+        try:
+            logging.info("Entered predict method of USvisaClassifier class")
+            model = USVisaEstimator(
+                bucket_name=self.prediction_pipeline_config.model_bucket_name,
+                model_path=self.prediction_pipeline_config.model_file_path,
+            )
+            result =  model.predict(dataframe)
+            
+            return result
+        except Exception as e:
+            raise USvisaException(e,sys)
+        
