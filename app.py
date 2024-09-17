@@ -29,3 +29,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+class DataForm:
+    def __init__(self, request: Request):
+        self.request: Request = request
+        self.continent: Optional[str] = None
+        self.education_of_employee: Optional[str] = None
+        self.has_job_experience: Optional[str] = None
+        self.requires_job_training: Optional[str] = None
+        self.no_of_employees: Optional[str] = None
+        self.company_age: Optional[str] = None
+        self.region_of_employment: Optional[str] = None
+        self.prevailing_wage: Optional[str] = None
+        self.unit_of_wage: Optional[str] = None
+        self.full_time_position: Optional[str] = None
+        
