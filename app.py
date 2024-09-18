@@ -45,3 +45,22 @@ class DataForm:
         self.unit_of_wage: Optional[str] = None
         self.full_time_position: Optional[str] = None
         
+
+    async def get_usvisa_data(self):
+        form = await self.request.form()
+        self.continent = form.get("continent")
+        self.education_of_employee = form.get("education_of_employee")
+        self.has_job_experience = form.get("has_job_experience")
+        self.requires_job_training = form.get("requires_job_training")
+        self.no_of_employees = form.get("no_of_employees")
+        self.company_age = form.get("company_age")
+        self.region_of_employment = form.get("region_of_employment")
+        self.prevailing_wage = form.get("prevailing_wage")
+        self.unit_of_wage = form.get("unit_of_wage")
+        self.full_time_position = form.get("full_time_position")
+
+@app.get("/", tags=["authentication"])
+async def index(request: Request):
+
+    return templates.TemplateResponse(
+            "usvisa.html",{"request": request, "context": "Rendering"})
