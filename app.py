@@ -64,3 +64,15 @@ async def index(request: Request):
 
     return templates.TemplateResponse(
             "usvisa.html",{"request": request, "context": "Rendering"})
+
+@app.get("/train")
+async def trainRouteClient():
+    try:
+        train_pipeline = TrainingPipeline()
+
+        train_pipeline.run_pipeline()
+
+        return Response("Training successful !!")
+
+    except Exception as e:
+        return Response(f"Error Occurred! {e}")
