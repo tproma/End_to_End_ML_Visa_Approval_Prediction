@@ -76,3 +76,45 @@ async def trainRouteClient():
 
     except Exception as e:
         return Response(f"Error Occurred! {e}")
+
+
+
+
+@app.post("/")
+async def predictRouteClient(request: Request):
+    try:
+        form = DataForm(request)
+        await form.get_usvisa_data()
+        
+        usvisa_data = USVisaData(
+                                continent= form.continent,
+                                education_of_employee = form.education_of_employee,
+                                has_job_experience = form.has_job_experience,
+                                requires_job_training = form.requires_job_training,
+                                no_of_employees= form.no_of_employees,
+                                company_age= form.company_age,
+                                region_of_employment = form.region_of_employment,
+                                prevailing_wage= form.prevailing_wage,
+                                unit_of_wage= form.unit_of_wage,
+                                full_time_position= form.full_time_position,
+                                )
+        
+        usvisa_df = usvisa_data.get_usvisa_input_data_frame()
+
+        model_predictor = USvisaClassifier()
+
+        value = model_predictor.predict(dataframe=usvisa_df)[0]
+
+        status = None
+        if value == 1:
+            status = "Visa-approved"
+        else:
+            status = "Visa Not-Approved"
+
+        return templates.TemplateResponse(
+            "usvisa.html",
+            {"request": request, "context": status},
+        )
+        
+    except Exception as e:
+        return {"status": False, "error": f"{e}"}
