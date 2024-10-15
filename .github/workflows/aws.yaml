@@ -33,3 +33,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
           IMAGE_TAG: latest
+
+  Continuous-Deployment:
+    needs: Continuous-Integration
+    runs-on: self-hosted
